@@ -1,0 +1,66 @@
+name: Collect data & deploy dashboard
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # cada 6 horas (UTC)
+  workflow_dispatch:         # ejecución manual desde la pestaña Actions
+
+permissions:
+  contents: write   # commitear snapshots
+  pages: write      # publicar dashboard
+  id-token: write
+
+concurrency:
+  group: collect-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Collect snapshot
+        env:
+          OCM_API_KEY: ${{ secrets.OCM_API_KEY }}
+        run: python scripts/collect_snapshot.py
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/snapshots/
+          git diff --cached --quiet && echo "Sin cambios" && exit 0
+          git commit -m "data: snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase origin main
+          git push
+
+      - name: Build dashboard
+        env:
+          OCM_API_KEY: ${{ secrets.OCM_API_KEY }}
+        run: |
+          python -m ev_charging --max-results 500
+          mkdir -p _site
+          cp reports/dashboard.html _site/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: collect
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
