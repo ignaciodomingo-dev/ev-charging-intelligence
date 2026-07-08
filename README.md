@@ -1,11 +1,11 @@
 # EV Charging Intelligence 🔌
 
-![CI](https://github.com/<tu-usuario>/ev-charging-intelligence/actions/workflows/ci.yml/badge.svg)
-![Data collection](https://github.com/<tu-usuario>/ev-charging-intelligence/actions/workflows/collect-data.yml/badge.svg)
+![CI](https://github.com/igdope-bot/ev-charging-intelligence/actions/workflows/ci.yml/badge.svg)
+![Data collection](https://github.com/igdope-bot/ev-charging-intelligence/actions/workflows/collect-data.yml/badge.svg)
 
 Análisis de la infraestructura de carga para vehículos eléctricos en Chile: integración con API pública, recolección automática de datos cada 6 horas, análisis de ocupación, precios y patrones de uso, y dashboard interactivo publicado en GitHub Pages.
 
-**📊 Dashboard en vivo:** `https://<tu-usuario>.github.io/ev-charging-intelligence/`
+**📊 Dashboard en vivo:** `https://igdope-bot.github.io/ev-charging-intelligence/`
 
 **Stack:** Python 3.10+ · pandas · Plotly · requests · pytest
 
@@ -20,7 +20,7 @@ Análisis de la infraestructura de carga para vehículos eléctricos en Chile: i
 ## Instalación
 
 ```bash
-git clone https://github.com/<tu-usuario>/ev-charging-intelligence.git
+git clone https://github.com/igdope-bot/ev-charging-intelligence.git
 cd ev-charging-intelligence
 pip install -r requirements.txt
 cp .env.example .env   # agrega tu OCM_API_KEY (gratis, link en el archivo)
