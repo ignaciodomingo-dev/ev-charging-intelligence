@@ -1,6 +1,11 @@
 # EV Charging Intelligence 🔌
 
-Análisis de la infraestructura de carga para vehículos eléctricos en Chile: integración con API pública, análisis de ocupación, precios y patrones de uso, y dashboard interactivo.
+![CI](https://github.com/<tu-usuario>/ev-charging-intelligence/actions/workflows/ci.yml/badge.svg)
+![Data collection](https://github.com/<tu-usuario>/ev-charging-intelligence/actions/workflows/collect-data.yml/badge.svg)
+
+Análisis de la infraestructura de carga para vehículos eléctricos en Chile: integración con API pública, recolección automática de datos cada 6 horas, análisis de ocupación, precios y patrones de uso, y dashboard interactivo publicado en GitHub Pages.
+
+**📊 Dashboard en vivo:** `https://<tu-usuario>.github.io/ev-charging-intelligence/`
 
 **Stack:** Python 3.10+ · pandas · Plotly · requests · pytest
 
@@ -10,6 +15,7 @@ Análisis de la infraestructura de carga para vehículos eléctricos en Chile: i
 - Simula ocupación horaria con patrones realistas (peaks de commute, diferencia semana/fin de semana) — ver [nota sobre datos](#nota-sobre-los-datos-de-ocupación).
 - Analiza: ocupación por hora, distribución de potencia, participación por operador, precios CLP/kWh, estaciones saturadas candidatas a ampliación.
 - Genera un dashboard HTML interactivo (mapa + gráficos) sin necesidad de servidor.
+- **Recolección automática:** GitHub Actions ejecuta un snapshot cada 6 horas y lo commitea a `data/snapshots/` — construyendo un dataset histórico público de electrolineras en Chile que no existe en ninguna otra fuente.
 
 ## Instalación
 
@@ -48,8 +54,16 @@ python -m ev_charging --max-results 300
 │   └── config.py        # Configuración central (.env)
 ├── notebooks/01_eda.ipynb   # Análisis exploratorio
 ├── tests/                    # 100% offline (API mockeada)
-└── data/                     # raw/ (snapshots JSON) y processed/ (parquet)
+├── scripts/collect_snapshot.py   # Collector para el cron de Actions
+├── .github/workflows/            # CI (pytest) + recolección/deploy cada 6h
+└── data/snapshots/               # Histórico acumulado (json.gz, ~20 KB c/u)
 ```
+
+## Deploy propio (fork)
+
+1. Crea el secret `OCM_API_KEY` en Settings → Secrets and variables → Actions.
+2. Activa GitHub Pages: Settings → Pages → Source: **GitHub Actions**.
+3. Ejecuta el workflow "Collect data & deploy dashboard" manualmente (Actions → Run workflow) o espera al cron.
 
 ## Tests
 
