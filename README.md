@@ -5,7 +5,7 @@
 
 Análisis de la infraestructura de carga para vehículos eléctricos en Chile: integración con API pública, recolección automática de datos cada 6 horas, análisis de ocupación, precios y patrones de uso, y dashboard interactivo publicado en GitHub Pages.
 
-**📊 Dashboard en vivo:** `https://igdope-bot.github.io/ev-charging-intelligence/`
+** Dashboard en vivo:** `https://igdope-bot.github.io/ev-charging-intelligence/`
 
 **Stack:** Python 3.10+ · pandas · Plotly · requests · pytest
 
