@@ -109,7 +109,9 @@ class OpenChargeMapClient:
             {
                 "countrycode": country_code,
                 "maxresults": max_results,
-                "compact": "true",
+                # compact=false: mantiene OperatorInfo/StatusType anidados
+                # (compact=true los reduce a IDs y perderíamos operador y estado)
+                "compact": "false",
                 "verbose": "false",
             },
         )
