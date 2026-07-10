@@ -20,7 +20,7 @@ OCM_API_KEY = os.getenv("OCM_API_KEY", "")
 
 # Parámetros por defecto
 COUNTRY_CODE = "CL"
-DEFAULT_MAX_RESULTS = 500
+DEFAULT_MAX_RESULTS = 5000  # Chile tiene ~1-2k POIs en OCM; esto cubre todo el país
 REQUEST_TIMEOUT = 30  # segundos
 MAX_RETRIES = 3
 BACKOFF_FACTOR = 2  # espera exponencial: 2s, 4s, 8s
